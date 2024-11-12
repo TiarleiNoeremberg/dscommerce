@@ -3,6 +3,7 @@ package com.tiarlei.dscommerce.services;
 import com.tiarlei.dscommerce.dto.ProductDTO;
 import com.tiarlei.dscommerce.entities.Product;
 import com.tiarlei.dscommerce.repositories.ProductRepository;
+import com.tiarlei.dscommerce.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,8 +25,11 @@ public class ProductService {
         //Product product = result.get();
         //ProductDTO dto = new ProductDTO(product);
         //return dto;
-        Product product = repository.findById(id).get();    //Esta opcao mais simplificada faz a mesma tarefa das linhas acima comentadas.
+        Product product = repository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Recurso não encontrado"));
         return new ProductDTO(product);
+
+
     }
 
     @Transactional(readOnly = true)
