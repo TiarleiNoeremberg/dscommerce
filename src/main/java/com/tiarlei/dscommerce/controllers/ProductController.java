@@ -4,6 +4,7 @@ import com.tiarlei.dscommerce.dto.CustomError;
 import com.tiarlei.dscommerce.dto.ProductDTO;
 import com.tiarlei.dscommerce.services.ProductService;
 import com.tiarlei.dscommerce.services.exceptions.ResourceNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,7 +40,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductDTO> insert(@RequestBody ProductDTO dto) {
+    public ResponseEntity<ProductDTO> insert(@Valid @RequestBody ProductDTO dto) {
         //dto = service.insert(dto);
         //return dto;
         dto = service.insert(dto);
@@ -49,7 +50,7 @@ public class ProductController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<ProductDTO> update(@PathVariable Long id, @RequestBody ProductDTO dto) {
+    public ResponseEntity<ProductDTO> update(@PathVariable Long id, @Valid @RequestBody ProductDTO dto) {
         dto = service.update(id, dto);
         return ResponseEntity.ok(dto);
     }
