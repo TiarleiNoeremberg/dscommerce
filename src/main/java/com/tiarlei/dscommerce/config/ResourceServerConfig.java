@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -49,7 +50,13 @@ public class ResourceServerConfig {
 	public SecurityFilterChain rsSecurityFilterChain(HttpSecurity http) throws Exception {
 
 		http.csrf(csrf -> csrf.disable());
+		//Adicionado por minha conta
+		http.authorizeHttpRequests(authorize -> authorize.requestMatchers(HttpMethod.POST, "/products").hasRole("ADMIN"));
+		http.authorizeHttpRequests(authorize -> authorize.requestMatchers(HttpMethod.PUT, "/products/{id}").hasRole("ADMIN"));
+		http.authorizeHttpRequests(authorize -> authorize.requestMatchers(HttpMethod.DELETE, "/products/{id}").hasRole("ADMIN"));
 		http.authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll());
+		//Adicionado por minha conta
+		//http.authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll());
 		http.oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt(Customizer.withDefaults()));
 		http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
 		return http.build();
@@ -83,17 +90,17 @@ public class ResourceServerConfig {
 	}
 
 	@Bean
-	CorsFilter corsFilter(){
-		return new CorsFilter(corsConfigurationSource());
-	}
-
-	/*
-	@Bean
 	FilterRegistrationBean<CorsFilter> corsFilter() {
 		FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(
 				new CorsFilter(corsConfigurationSource()));
 		bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
 		return bean;
+	}
+
+	/*
+	@Bean
+	CorsFilter corsFilter(){
+		return new CorsFilter(corsConfigurationSource());
 	}
 	*/
 }
