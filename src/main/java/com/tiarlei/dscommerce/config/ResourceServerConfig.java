@@ -13,6 +13,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
@@ -29,6 +30,7 @@ import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class ResourceServerConfig {
 
 	@Value("${cors.origins}")
@@ -51,12 +53,12 @@ public class ResourceServerConfig {
 
 		http.csrf(csrf -> csrf.disable());
 		//Adicionado por minha conta
-		http.authorizeHttpRequests(authorize -> authorize.requestMatchers(HttpMethod.POST, "/products").hasRole("ADMIN"));
-		http.authorizeHttpRequests(authorize -> authorize.requestMatchers(HttpMethod.PUT, "/products/{id}").hasRole("ADMIN"));
-		http.authorizeHttpRequests(authorize -> authorize.requestMatchers(HttpMethod.DELETE, "/products/{id}").hasRole("ADMIN"));
-		http.authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll());
-		//Adicionado por minha conta
+		//http.authorizeHttpRequests(authorize -> authorize.requestMatchers(HttpMethod.POST, "/products").hasRole("ADMIN"));
+		//http.authorizeHttpRequests(authorize -> authorize.requestMatchers(HttpMethod.PUT, "/products/{id}").hasRole("ADMIN"));
+		//http.authorizeHttpRequests(authorize -> authorize.requestMatchers(HttpMethod.DELETE, "/products/{id}").hasRole("ADMIN"));
 		//http.authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll());
+		//Adicionado por minha conta
+		http.authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll());
 		http.oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt(Customizer.withDefaults()));
 		http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
 		return http.build();
