@@ -1,9 +1,8 @@
 package com.tiarlei.dscommerce.controllers;
 
-import com.tiarlei.dscommerce.dto.CustomError;
 import com.tiarlei.dscommerce.dto.ProductDTO;
+import com.tiarlei.dscommerce.dto.ProductMinDTO;
 import com.tiarlei.dscommerce.services.ProductService;
-import com.tiarlei.dscommerce.services.exceptions.ResourceNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -42,10 +41,10 @@ public class ProductController {
     */
 
     @GetMapping
-    public ResponseEntity<Page<ProductDTO>> findAll(
+    public ResponseEntity<Page<ProductMinDTO>> findAll(
             @RequestParam(name = "name", defaultValue = "") String name,
             Pageable pageable) {
-        Page<ProductDTO> dto = service.findAll(name, pageable);
+        Page<ProductMinDTO> dto = service.findAll(name, pageable);
         return ResponseEntity.ok(dto);
     }
 
