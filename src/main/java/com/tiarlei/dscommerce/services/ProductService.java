@@ -1,7 +1,9 @@
 package com.tiarlei.dscommerce.services;
 
+import com.tiarlei.dscommerce.dto.CategoryDTO;
 import com.tiarlei.dscommerce.dto.ProductDTO;
 import com.tiarlei.dscommerce.dto.ProductMinDTO;
+import com.tiarlei.dscommerce.entities.Category;
 import com.tiarlei.dscommerce.entities.Product;
 import com.tiarlei.dscommerce.repositories.ProductRepository;
 import com.tiarlei.dscommerce.services.exceptions.DatabaseException;
@@ -79,5 +81,12 @@ public class ProductService {
         entity.setDescription(dto.getDescription());
         entity.setPrice(dto.getPrice());
         entity.setImgUrl(dto.getImgUrl());
+
+        entity.getCategories().clear();
+        for (CategoryDTO catDto : dto.getCategories()){
+            Category cat = new Category();
+            cat.setId(catDto.getId());
+            entity.getCategories().add(cat);
+        }
     }
 }
