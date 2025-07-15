@@ -82,7 +82,7 @@ public class User implements UserDetails {
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
-
+    
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;
